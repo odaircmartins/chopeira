@@ -1,8 +1,7 @@
-let cacheName = "Chopeira IOT - 1.0";
-let filesToCache = [
+var cacheName = "Chopeira IOT - 2.0";
+var filesToCache = [
     './',                 
     'index.html',
-    'favicon.ico',
     'css/bulma.css',
     'js/bancoDeDados.js',
     'js/instalador.js'
