@@ -1,4 +1,4 @@
-let cacheName = "Chopeira IOT - 1.0";
+let cacheName = "Chopeira IOT - 1.1";
 let filesToCache = [
     './',                 
     'index.html',
