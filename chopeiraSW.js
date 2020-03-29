@@ -5,8 +5,7 @@ let filesToCache = [
     'favicon.ico',
     'css/bulma.min.css',
     'js/bancoDeDados.js',
-    'js/instalador.js',
-    'js/principal.js'
+    'js/instalador.js'
 ];
 
 console.log("Rodando aplicação " + cacheName);
