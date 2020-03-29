@@ -3,7 +3,7 @@ let filesToCache = [
     './',                 
     'index.html',
     'favicon.ico',
-    'css/bulma.min.css',
+    'css/bulma.css',
     'js/bancoDeDados.js',
     'js/instalador.js'
 ];
