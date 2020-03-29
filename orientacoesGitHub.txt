@@ -1,0 +1,27 @@
+
+            1º Retirar o comentário da Base URL no index.html 
+
+            2º Acessar https://github.com/odaircmartins 
+
+            3º Criar repositório "chopeira" 
+
+            4º No terminal usar: 
+
+                echo "# chopeira" >> README.md 
+
+                git init 
+
+                git add README.md 
+
+                git commit -m "primeiro commit" 
+
+                git remote add origin https://github.com/odaircmartins/chopeira.git 
+
+                git push -u origin master
+
+
+            5º Para publicar ir até "Seetings -> GitHub Pages -> Source: Master Branch"
+
+            6º Acessar a aplicação em http://odaircmartins.github.io/chopeira/
+
+        

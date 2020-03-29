@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <!-- Retirar comentário da base abaixo para rodar o PWA -->
+    <base href="/chopeira/">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Site de orientação sobre SEO em SPA's: https://snipcart.com/spa-seo -->
+
+    <!-- Incluir no mínimo 2 palavras principais -->
+    <!-- Manter menor que 140 caracteres -->
+    <!-- Usar call-to-action descrevendo por exemplo "Clique e leia mais" -->
+    <meta name="description" content="Aplicação IOT para controlar equipamento de controle volumétrico">
+
+    <!-- Title deve ser menor que 70 caracteres -->
+    <!-- As palavras-chave de destino devem aparecer na tag Title, URL, H1 e, com moderação, no conteúdo da página -->
+    <!-- Os títulos das imagens e as tags ALT devem ter nomes descritivos -->
+    <!-- Validar como aparecerá no Google em https://seomofo.com/snippet-optimizer.html -->
+    <!-- Sempre adicionar a marca no final ([...] - Your Brand) -->
+    <title>Chopeira IOT</title>
+
+    <!-- Social Tags Facebook -->
+    <!-- https://rockcontent.com/blog/meta-tags-para-redes-sociais/ -->
+    <meta property="og:title" content="facebookTitulo" />
+    <meta property="og:type" content="facebookTipo" />
+    <meta property="og:description" content="facebookDescricao" />
+    <meta property="og:image" content="facebookImagem" />
+    <meta property="og:url" content="facebookUrl" />
+    <meta property="og:site_name" content="facebookNomeDoSite" />
+    <meta property="fb:admins" content="facebookAdministrador" />
+
+    <!-- Social Tags Twitter -->
+    <meta name="twitter:card" content="twitterSumario">
+    <meta name="twitter:url" content="twitterUrl">
+    <meta name="twitter:title" content="twitterTitulo">
+    <meta name="twitter:description" content="twitterDescricao">
+    <meta name="twitter:image" content="twitterImagem">
+
+    <!-- Sitemap -->
+    <!-- https://www.xml-sitemaps.com/-->
+
+    <!-- HTTPS -->
+    <!-- Hospedar com SSL -->
+    <!-- Geradores de certificado: https://letsencrypt.org/ e https://www.cloudflare.com/en/ssl/ -->
+
+    <!-- Testar para ver como o Google procura o site https://search.google.com/search-console/ -->
+    <!-- Verificar desempenho no Lighthouse -->
+    <!-- Verificar desempenho no tools.pingdom.com -->
+    <link rel="stylesheet" href="css/bulma.css">
+    <link rel="manifest" href="manifest.json" />
+</head>
+
+<body>
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    <span class="icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </span>
+                    Chopeira IOT Beta 1.0
+                </h1>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="field">
+                <div class="buttons">
+                    <button id="liberarChopeira" class="button is-info is-fullwidth is-medium">Liberar Chopeira</button>
+                </div>
+            </div>
+
+            <div class="tile is-ancestor">
+                <div class="tile is-parent">
+                    <article class="tile is-child notification is-info">
+                        <p class="subtitle">ID da Compra</p>
+                        <p class="title" id="idCompra"></p>
+                    </article>
+                </div>
+                <div class="tile is-parent">
+                    <article class="tile is-child notification is-info">
+                        <p class="subtitle">Volume comprado (ml)</p>
+                        <p class="title" id="volumeComprado"></p>
+                    </article>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+</body>
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-database.js"></script>
+<!-- TODO: Add SDKs for Firebase products that you want to use https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script src="js/bancoDeDados.js"></script>
+<script src="js/instalador.js"></script>
+
+<script>
+    // Mapeamento dos campos do formulário
+    let comprar = document.getElementById("liberarChopeira");
+    let idCompra = document.getElementById("idCompra");
+    let volumeComprado = document.getElementById("volumeComprado");
+
+    // Cria a referência com o nó a ser manipulado no Firebase
+    const dbRef = firebase.database().ref();
+    const compraRef = dbRef.child('compras');
+    let compraAtual = '';
+
+    // Adiciona no banco de dados
+    function adicionar() {
+        let novoRegistro = database.ref().child('compras').push().key;
+        let updates = {};
+        let dadosDoRegistro = {
+            volumeComprado: 0
+        }
+
+        updates['/compras/' + novoRegistro] = dadosDoRegistro;
+        database.ref().update(updates);
+
+        compraAtual = novoRegistro;
+
+        console.log("Registro " + novoRegistro + " inserido na tabela 'compras'");
+    }
+
+    comprar.addEventListener("click", adicionar);
+
+    compraRef.on("child_changed", snap => {
+        if (snap.key == compraAtual) {
+            idCompra.textContent = compraAtual;
+            volumeComprado.textContent  = snap.val().volumeComprado;
+        }
+    });
+</script>
+
+</html>
