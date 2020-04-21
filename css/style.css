@@ -1,0 +1,24 @@
+.camera{
+    visibility: hidden;
+    height: 1px;
+}
+
+.camera.active{
+    visibility: visible;    
+}
+
+.qrcodeLido{
+    visibility: hidden;
+}
+
+.qrcodeLido.active{
+    visibility: visible;
+}
+
+.acaoLerQrcode{
+    visibility: visible;
+}
+
+.acaoLerQrcode.active{
+    visibility: hidden;
+}

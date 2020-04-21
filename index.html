@@ -51,6 +51,7 @@
     <!-- Verificar desempenho no Lighthouse -->
     <!-- Verificar desempenho no tools.pingdom.com -->
     <link rel="stylesheet" href="css/bulma.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="manifest" href="manifest.json" />
 </head>
 
@@ -70,27 +71,40 @@
 
     <section class="section">
         <div class="container">
-            <div class="field">
+            <div class="field acaoLerQrcode">
                 <div class="buttons">
-                    <button id="liberarChopeira" class="button is-warning is-fullwidth is-medium">Liberar Chopeira</button>
+                    <button id="lerChopeira" class="button is-warning is-fullwidth is-medium">Ler QR Code</button>
                 </div>
             </div>
 
-            <div class="tile is-ancestor">
-                <div class="tile is-parent">
-                    <article class="tile is-child notification is-info">
-                        <p class="subtitle">ID da Compra</p>
-                        <p class="title" id="idCompra"></p>
-                    </article>
+            <div class="field camera">
+                <canvas id="canvas" hidden></canvas>
+            </div>
+
+            <div class="qrcodeLido">
+                <div class="field">
+                    <div class="buttons">
+                        <button id="liberarChopeira" class="button is-warning is-fullwidth is-medium">
+                            Liberar Chopeira
+                        </button>
+                    </div>
                 </div>
-                <div class="tile is-parent">
-                    <article class="tile is-child notification is-info">
-                        <p class="subtitle">Volume comprado (ml)</p>
-                        <p class="title" id="volumeComprado"></p>
-                    </article>
+
+                <div class="tile is-ancestor">
+                    <div class="tile is-parent">
+                        <article class="tile is-child notification is-info">
+                            <p class="subtitle">ID da Compra</p>
+                            <p class="title" id="idCompra"></p>
+                        </article>
+                    </div>
+                    <div class="tile is-parent">
+                        <article class="tile is-child notification is-info">
+                            <p class="subtitle">Volume comprado (ml)</p>
+                            <p class="title" id="volumeComprado"></p>
+                        </article>
+                    </div>
                 </div>
             </div>
-        </div>
         </div>
     </section>
 
@@ -108,45 +122,9 @@
 <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-database.js"></script>
 <!-- TODO: Add SDKs for Firebase products that you want to use https://firebase.google.com/docs/web/setup#available-libraries -->
 <script src="chopeiraSW.js"></script>
+<script src="js/jsQR.js"></script>
 <script src="js/bancoDeDados.js"></script>
-
-<script>
-    // Mapeamento dos campos do formulário
-    let comprar = document.getElementById("liberarChopeira");
-    let idCompra = document.getElementById("idCompra");
-    let volumeComprado = document.getElementById("volumeComprado");
-
-    // Cria a referência com o nó a ser manipulado no Firebase
-    const dbRef = firebase.database().ref();
-    const compraRef = dbRef.child('compras');
-    let compraAtual = '';
-
-    // Adiciona no banco de dados
-    function adicionar() {
-        let novoRegistro = database.ref().child('compras').push().key;
-        let updates = {};
-        let dadosDoRegistro = {
-            volumeComprado: 0
-        }
-
-        updates['/compras/' + novoRegistro] = dadosDoRegistro;
-        database.ref().update(updates);
-
-        compraAtual = novoRegistro;
-
-        console.log("Registro " + novoRegistro + " inserido na tabela 'compras'");
-    }
-
-    comprar.addEventListener("click", adicionar);
-
-    compraRef.on("child_changed", snap => {
-        if (snap.key == compraAtual) {
-            idCompra.textContent = compraAtual;
-            volumeComprado.textContent  = snap.val().volumeComprado;
-        }
-    });
-</script>
-
+<script src="js/app.js"></script>
 <script src="js/instalador.js"></script>
 
 </html>
