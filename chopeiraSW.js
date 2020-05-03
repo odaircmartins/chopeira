@@ -1,4 +1,4 @@
-var cacheName = "Chopeira IOT - 1.6";
+var cacheName = "Chopeira IOT - 1.7";
 var filesToCache = [
     './',                 
     'index.html',

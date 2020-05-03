@@ -46,7 +46,6 @@ function tick() {
         canvasElement.hidden = false;
         canvasElement.height = video.videoHeight;
         canvasElement.width = video.videoWidth;
-        tela.style.height = video.videoHeight;
         canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
         var imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
         var code = jsQR(imageData.data, imageData.width, imageData.height, {
@@ -73,6 +72,7 @@ function tick() {
 let comprar = document.getElementById("liberarChopeira");
 let idCompra = document.getElementById("idCompra");
 let volumeComprado = document.getElementById("volumeComprado");
+let compraDoMichael = document.getElementById("compraDoMichael");
 
 // Cria a referência com o nó a ser manipulado no Firebase
 const dbRef = firebase.database().ref();
@@ -96,7 +96,25 @@ function adicionar() {
     console.log("Registro " + novoRegistro + " inserido na tabela 'compras'");
 }
 
-comprar.addEventListener("click", adicionar);
+// Adiciona no banco de dados BOTÃO MICHAEL
+function adicionarMichael() {
+    let novoRegistro = database.ref().child('compras').push().key;
+    let updates = {};
+    let dadosDoRegistro = {
+        chopeiraSelecionada: '-M5PEWnTMxcRKOxbBCiP',
+        volumeComprado: 350,
+        ocupada: true
+    }
+
+    updates['/compras/' + novoRegistro] = dadosDoRegistro;
+    database.ref().update(updates);
+
+    compraAtual = novoRegistro;
+
+    console.log("Registro " + novoRegistro + " inserido na tabela 'compras'");
+}
+
+compraDoMichael.addEventListener("click", adicionarMichael);
 
 compraRef.on("child_changed", snap => {
     if (snap.key == compraAtual) {
